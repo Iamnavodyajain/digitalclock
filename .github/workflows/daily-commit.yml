@@ -1,0 +1,22 @@
+name: Daily Commit Automation
+
+on:
+  schedule:
+    - cron: '0 5 * * *' # Runs every day at 5 AM UTC (adjust as needed)
+  workflow_dispatch: # Allows you to trigger manually too
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Make changes (update timestamp)
+        run: |
+          echo "Last commit: $(date)" > last-commit.txt
+          git config --global user.name "Iamnavodyajain"
+          git config --global user.email "iamnavodyajain@gmail.com"
+          git add last-commit.txt
+          git commit -m "Automated daily commit - $(date)"
+          git push
